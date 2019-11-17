@@ -1,17 +1,20 @@
 <script>
-	export default {
-		onLaunch: function() {
-			console.log('App Launch')
-		},
-		onShow: function() {
-			console.log('App Show')
-		},
-		onHide: function() {
-			console.log('App Hide')
-		}
-	}
+export default {
+	onLaunch() {
+		console.log('App Launch')
+	},
+
+	async onShow() {
+		await this.$store.dispatch('get245BtHeader')
+		// let res = await this.api.get245BtHeader().catch(err => {
+		// 	console.log(['bterr', err])
+		// })
+		// console.log(['btres', res])
+	},
+	onHide() {}
+}
 </script>
 
 <style>
-	/*每个页面公共css */
+/*每个页面公共css */
 </style>

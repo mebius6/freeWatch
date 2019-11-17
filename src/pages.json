@@ -1,16 +1,71 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "uni-app"
-			}
-		}
-	],
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
-	}
+  "pages": [
+  
+    {
+      "path": "pages/tabbar/film/film",
+      "style": {
+        "navigationBarTitleText": "电影"
+      }
+    },
+    {
+      "path": "pages/tabbar/tvSeries/tvSeries",
+      "style": {
+        "navigationBarTitleText": "连续剧"
+      }
+    },
+    {
+      "path": "pages/tabbar/variety/variety",
+      "style": {
+        "navigationBarTitleText": "综艺"
+      }
+    },
+    {
+      "path": "pages/tabbar/anime/anime",
+      "style": {
+        "navigationBarTitleText": "动漫"
+      }
+    },
+    {
+      "path": "pages/tabbar-detail/tabbarDetail"
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "免费看视频",
+    "navigationBarBackgroundColor": "#00bdab",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "borderStyle": "black",
+    "backgroundColor": "#f8f8f8",
+    "color": "#8F8F94",
+    "selectedColor": "#f33e54",
+    "list": [
+      
+      {
+        "pagePath": "pages/tabbar/film/film",
+        "iconPath": "static/img/tabbar/film.png",
+        "selectedIconPath": "static/img/tabbar/film-active.png",
+        "text": "电影"
+      },
+      {
+        "pagePath": "pages/tabbar/tvSeries/tvSeries",
+        "iconPath": "static/img/tabbar/tvSeries.png",
+        "selectedIconPath": "static/img/tabbar/tvSeries-active.png",
+        "text": "连续剧"
+      },
+      {
+        "pagePath": "pages/tabbar/variety/variety",
+        "iconPath": "static/img/tabbar/variety.png",
+        "selectedIconPath": "static/img/tabbar/variety-active.png",
+        "text": "综艺"
+      },
+      {
+        "pagePath": "pages/tabbar/anime/anime",
+        "iconPath": "static/img/tabbar/anime.png",
+        "selectedIconPath": "static/img/tabbar/anime-active.png",
+        "text": "动漫"
+      }
+    ]
+  }
 }

@@ -33,7 +33,11 @@
     "@dcloudio/uni-mp-toutiao": "^2.0.0-24120191114004",
     "@dcloudio/uni-mp-weixin": "^2.0.0-24120191114004",
     "@dcloudio/uni-stat": "^2.0.0-24120191114004",
+    "cheerio": "^1.0.0-rc.3",
     "flyio": "^0.6.2",
+    "less": "^3.10.3",
+    "less-loader": "^5.0.0",
+    "querystring": "^0.2.0",
     "regenerator-runtime": "^0.12.1",
     "vue": "^2.6.10",
     "vuex": "^3.0.1"
