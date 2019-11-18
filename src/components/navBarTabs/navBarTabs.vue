@@ -74,7 +74,8 @@ export default {
 		// 获取tabs文字的宽度和划线left
 		widthFun(index) {
 			// tabs元素文字的宽度
-			let textWidth = document.querySelectorAll('.nav-tabs-item')[index].offsetWidth
+			let textWidth = document.querySelectorAll('.nav-tabs-item')[index]
+				.offsetWidth
 
 			// 屏幕的宽度
 			let clientWidth = document.body.clientWidth
@@ -125,14 +126,14 @@ export default {
 .nav-tabs {
 	width: 100%;
 	height: 80rpx;
-	background: @mw-white-color;
+	background: @free-watch-white-color;
 	display: flex;
 	overflow-x: auto;
 	font-size: 22rpx;
 	color: rgba(33, 33, 51, 0.8);
 	position: relative;
 	flex-direction: row;
-	border-bottom: 1rpx solid @mw-gray2-color;
+	border-bottom: 1rpx solid @free-watch-gray2-color;
 	/* 滚动条整体部分 */
 	&::-webkit-scrollbar {
 		width: 1rpx;
@@ -144,13 +145,13 @@ export default {
 		//-webkit-box-shadow: inset 0 0 4rpx rgba(255, 255, 255, 0.1);
 		border-radius: 2rpx;
 		//border-left: 1rpx solid #cccccc;
-		background-color: @mw-gray2-color;
+		background-color: @free-watch-gray2-color;
 	}
 	/* 滚动条中能上下移动的小块 */
 	&::-webkit-scrollbar-thumb {
 		border-radius: 2rpx;
 		//-webkit-box-shadow: inset 0 0 4rpx rgba(0, 0, 0, 0.2);
-		background-color: @mw-gray2-color;
+		background-color: @free-watch-gray2-color;
 	}
 	&-con {
 		text-align: center;
@@ -163,13 +164,13 @@ export default {
 
 	.nav-tabs-item-active {
 		font-size: 28rpx;
-		color: @mw-black-color;
+		color: @free-watch-black-color;
 	}
 
 	.nav-tabs-move {
 		width: 100rpx;
 		height: 5rpx;
-		background-color: @mw-main-color;
+		background-color: @free-watch-main-color;
 		position: absolute;
 		left: 0;
 		bottom: 0;

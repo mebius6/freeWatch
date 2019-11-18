@@ -98,7 +98,7 @@ export default {
 		&-right {
 			flex: 0.7;
 			font-size: 28rpx;
-			color: @mw-from-gray-color;
+			color: @free-watch-from-gray-color;
 		}
 	}
 }
