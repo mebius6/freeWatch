@@ -2,6 +2,7 @@
 	<view class="free-watch-grid">
 		<uni-grid :column="gridColumn" :showBorder="gridShowBorder" :borderColor="gridBorderColor" :hor="gridHor" :ver="gridVer" :square="gridSquare" :highlight="gridHighlight" @change="_change">
 			<uni-grid-item v-for="(item,index) in gridData" :key="index" :img-width="item.imgWidth" :src="item.imgSrc" :hor="item.hor" :ver="item.ver" :marker="item.marker||'image'">
+				<cover-image class="free-watch-grid-image" :width="item.imgWidth" :height="item.imgHeight" :src="item.imgSrc" mode="aspectFill"></cover-image>
 				<text>{{item.title}}</text>
 			</uni-grid-item>
 		</uni-grid>
@@ -145,5 +146,18 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scoped>
+/deep/.free-watch-grid{
+	.uni-grid-item__box-item{
+		.free-watch-grid-image{
+			height: 100%;
+			width: 100%;
+		img{
+			height: 50rpx;
+			width: 25rpx;
+		}
+	}
+	}
+	
+}
 </style>

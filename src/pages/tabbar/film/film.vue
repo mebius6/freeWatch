@@ -66,7 +66,8 @@ export default {
 									imgSrc: v.imgPath,
 									path: v.path,
 									marker: 'image',
-									imgWidth: 60
+									imgWidth: '25px',
+									imgHeight:'50px'
 								}
 							})
 							console.log(res.body)
