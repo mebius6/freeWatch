@@ -1,28 +1,31 @@
 {
   "pages": [
-  
     {
       "path": "pages/tabbar/film/film",
       "style": {
-        "navigationBarTitleText": "电影"
+        "navigationBarTitleText": "电影",
+        "enablePullDownRefresh": true
       }
     },
     {
       "path": "pages/tabbar/tvSeries/tvSeries",
       "style": {
-        "navigationBarTitleText": "连续剧"
+        "navigationBarTitleText": "连续剧",
+        "enablePullDownRefresh": true
       }
     },
     {
       "path": "pages/tabbar/variety/variety",
       "style": {
-        "navigationBarTitleText": "综艺"
+        "navigationBarTitleText": "综艺",
+        "enablePullDownRefresh": true
       }
     },
     {
       "path": "pages/tabbar/anime/anime",
       "style": {
-        "navigationBarTitleText": "动漫"
+        "navigationBarTitleText": "动漫",
+        "enablePullDownRefresh": true
       }
     },
     {
@@ -41,7 +44,6 @@
     "color": "#8F8F94",
     "selectedColor": "#f33e54",
     "list": [
-      
       {
         "pagePath": "pages/tabbar/film/film",
         "iconPath": "static/img/tabbar/film.png",

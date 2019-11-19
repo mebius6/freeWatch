@@ -1,9 +1,9 @@
 <template>
-	<view class="free-watch-grid">
-		<uni-grid :column="gridColumn" :showBorder="gridShowBorder" :borderColor="gridBorderColor" :hor="gridHor" :ver="gridVer" :square="gridSquare" :highlight="gridHighlight" @change="_change">
-			<uni-grid-item v-for="(item,index) in gridData" :key="index" :img-width="item.imgWidth" :src="item.imgSrc" :hor="item.hor" :ver="item.ver" :marker="item.marker||'image'">
+	<view class="free-watch-grid-container">
+		<uni-grid :column="gridColumn" :showBorder="gridShowBorder" :borderColor="gridBorderColor" :hor="gridHor" :ver="gridVer" :square="gridSquare" :highlight="gridHighlight" @change="_change" class="free-watch-grid">
+			<uni-grid-item v-for="(item,index) in gridData" :key="index" :img-width="item.imgWidth" :src="item.imgSrc" :hor="item.hor" :ver="item.ver" :marker="item.marker||'image'" class="free-watch-grid-item">
 				<cover-image class="free-watch-grid-image" :width="item.imgWidth" :height="item.imgHeight" :src="item.imgSrc" mode="aspectFill"></cover-image>
-				<text>{{item.title}}</text>
+				<text class="free-watch-grid-text">{{item.title}}</text>
 			</uni-grid-item>
 		</uni-grid>
 	</view>
@@ -140,24 +140,47 @@ export default {
 	},
 	methods: {
 		_change(data) {
+			if (data) {
+				data.detail.item = this.gridData[data.detail.index]
+			}
 			this.$emit('change', data)
 		}
 	}
 }
 </script>
 
-<style lang="less" scoped>
-/deep/.free-watch-grid{
-	.uni-grid-item__box-item{
-		.free-watch-grid-image{
-			height: 100%;
-			width: 100%;
-		img{
-			height: 50rpx;
-			width: 25rpx;
+<style lang="scss" >
+.free-watch-grid-container {
+	.free-watch-grid {
+		.free-watch-grid-item {
+			padding: 30rpx 0;
+			min-height: 38vw;
+			.uni-grid-item__box {
+				.uni-grid-item__box-item {
+					display: flex;
+					flex-direction: column;
+					justify-content: space-between;
+					.free-watch-grid-image {
+						min-height: 150%;
+						width: 96%;
+						flex: 0.7;
+						padding: 0 15rpx;
+					}
+					.free-watch-grid-text {
+						flex: 0.3;
+						max-height: 30px;
+						font-size: 14px;
+						span {
+							width: 100%;
+							display: inline-block;
+							overflow: hidden;
+							text-overflow: ellipsis;
+							white-space: nowrap;
+						}
+					}
+				}
+			}
 		}
 	}
-	}
-	
 }
 </style>

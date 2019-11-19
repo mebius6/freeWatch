@@ -132,7 +132,7 @@ let parse = {
       xmlMode: true
     })
     let header = $('.stui-header__menu').children('li')
-    let headerData=[]
+    let headerData = []
     header.each((i, v) => {
       let a = $(v)
         .find('a')
@@ -157,11 +157,13 @@ let parse = {
         })
       }
       let href = $(a).attr('href')
-      let content=$(a).text().trim()
-      if (content !== '首页' && content !== '专题'&& content !== '分类') {
+      let content = $(a)
+        .text()
+        .trim()
+      if (content !== '首页' && content !== '专题' && content !== '分类') {
         headerData.push({
           title: content,
-          path:href
+          path: href
         })
       }
     })
@@ -173,17 +175,17 @@ let parse = {
       xmlMode: true
     })
     let listTabsDom = $('.stui-screen__list').find('a')
-    let listBodyDom=$('.stui-pannel_bd .stui-vodlist').children('li')
+    let listBodyDom = $('.stui-pannel_bd .stui-vodlist').children('li')
     let tabs = []
     let body = []
-    console.log(['listTabsDom',listTabsDom])
     listTabsDom.each((i, v) => {
-      let a = $(v)
-        .get(0)
+      let a = $(v).get(0)
       if (a) {
         tabs.push({
-          title: $(a).text().trim(),
-          path:$(a).attr('href')
+          title: $(a)
+            .text()
+            .trim(),
+          path: $(a).attr('href')
         })
       }
     })
@@ -191,11 +193,15 @@ let parse = {
       let a = $(v)
         .find('a')
         .get(0)
-      let titleDom=$(v).find('.stui-vodlist__detail h4 a').get(0)
+      let titleDom = $(v)
+        .find('.stui-vodlist__detail h4 a')
+        .get(0)
       if (a) {
         let path = $(a).attr('href')
         let imgPath = $(a).attr('data-original')
-        let title=$(titleDom).text().trim()
+        let title = $(titleDom)
+          .text()
+          .trim()
         body.push({
           title,
           path,
@@ -207,6 +213,24 @@ let parse = {
       tabs,
       body
     }
+  },
+  parse245BtItemHtml: data => {
+    let $ = cheerio.load(data, {
+      ignoreWhitespace: true,
+      xmlMode: true
+    })
+    let datas = {}
+    let imgPath = $('.stui-content__thumb a')
+      .find('.lazyload')
+      .attr('src')
+    let descDom = $('.stui-content__detail')
+    datas.imgPath = imgPath
+    let title = []
+    descDom.each((i, v) => {
+      let name = $(v)
+        .find('.title')
+        .text()
+    })
   }
 }
 
