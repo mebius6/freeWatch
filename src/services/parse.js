@@ -1,6 +1,8 @@
 import cheerio from 'cheerio'
 import querystring from 'querystring'
+import unit from './unit'
 let parse = {
+  /********************* www.1156zy.com api *****************/
   parseListHtml: data => {
     let $ = cheerio.load(data, {
       ignoreWhitespace: true,
@@ -126,6 +128,7 @@ let parse = {
     })
     return data
   },
+  /********************* www.245bt.com api *****************/
   parse245BtHeader: data => {
     let $ = cheerio.load(data, {
       ignoreWhitespace: true,
@@ -220,17 +223,103 @@ let parse = {
       xmlMode: true
     })
     let datas = {}
-    let imgPath = $('.stui-content__thumb a')
-      .find('.lazyload')
-      .attr('src')
-    let descDom = $('.stui-content__detail')
+    let imgPath = $('.stui-content__thumb')
+      .find('img')
+      .attr('data-original')
+    let detailDom = $('.stui-content__detail')
     datas.imgPath = imgPath
-    let title = []
-    descDom.each((i, v) => {
-      let name = $(v)
-        .find('.title')
-        .text()
+    datas.author = detailDom
+      .find('.title')
+      .text()
+      .trim()
+    // 影片介绍
+    let dataDom = $('.stui-content__detail').children('.data')
+    let header = []
+    dataDom.each((i, v) => {
+      if (i === 0) {
+        let labelArr = $(v)
+          .find('.text-muted')
+          .map((i, el) =>
+            $(el)
+              .text()
+              .trim()
+          )
+        let valueArr = $(v)
+          .find('a')
+          .map((i, el) =>
+            $(el)
+              .text()
+              .trim()
+          )
+        for (let index = 0; index < labelArr.length; index++) {
+          const item = labelArr[index]
+          for (let j = 0; j < valueArr.length; j++) {
+            const jItem = valueArr[j]
+            if (index === j) {
+              header.push({ label: item, value: jItem })
+            }
+          }
+        }
+      } else {
+        let label = $(v)
+          .find('.text-muted')
+          .text()
+          .trim()
+        let value = $(v)
+          .text()
+          .trim()
+        if (value.indexOf('：') > -1) {
+          value = value.split('：')[1]
+        }
+        header.push({
+          label,
+          value
+        })
+      }
     })
+    let descDom = $('.stui-content__detail').find('.desc')
+
+    // 剧情简介
+    let desc = []
+    desc.push({
+      label: descDom.find('.text-muted').text(),
+      value: descDom.find('.detail-sketch').text()
+    })
+    // 剧集列表
+    let bodyDom = $('.container').find('.stui-pannel-box')
+
+    let body = []
+    bodyDom.each((i, v) => {
+      if (i !== bodyDom.length - 1) {
+        let dom = $(v).find('.stui-pannel_hd')
+        let source = dom
+          .find('.stui-pannel__head .title')
+          .text()
+          .trim()
+        let listDom = $(v).find('.col-pd .stui-content__playlis')
+        console.log(['source', source])
+        console.log(['listDom', listDom])
+        if (listDom.length) {
+          let list = listDom.map((index, item) => {
+            let urlDom = $(item).find('a')
+            return {
+              path: urlDom.attr('href'),
+              title: urlDom.text().trim()
+            }
+          })
+          body.push({
+            source,
+            list
+          })
+        }
+      }
+    })
+    console.log(['bodyDom', bodyDom])
+    datas.header = unit.objectArrayReduce(header, 'label')
+    datas.body = body
+    datas.desc = desc.filter(v => v.label && v.value)
+
+    return datas
   }
 }
 

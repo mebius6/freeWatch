@@ -2,11 +2,11 @@
 	<view class="tarbar-detail">
 		<view class="tarbar-detail-title">
 			<view class="tarbar-detail-title-left">
-				<image class="tarbar-detail-title-left-img" mode="aspectFit" :src="getLeftTitle.pic" @error="imageError"></image>
+				<image class="tarbar-detail-title-left-img" mode="aspectFit" :src="getImgPath" @error="imageError"></image>
 			</view>
 			<view class="tarbar-detail-title-right">
 				<view class="tarbar-detail-title-right-item" v-for="(item,index) in getRightTitle" :key="index">
-					{{item.text}}
+					{{item.label}}{{item.value}}
 				</view>
 			</view>
 		</view>
@@ -36,14 +36,14 @@ export default {
 		//option为object类型，会序列化上个页面传递的参数
 		console.log(this.data) //打印出上个页面传递的参数。
 		uni.setNavigationBarTitle({
-			title: this.data.content
+			title: this.data.title
 		})
 		this.getDetailList()
 	},
 	computed: {
-		getLeftTitle: {
+		getImgPath: {
 			get() {
-				return this.title.find(v => v.pic) || { pic: '' }
+				return this.data.imgSrc
 			},
 			set(val) {
 				return val
@@ -51,7 +51,7 @@ export default {
 		},
 		getRightTitle: {
 			get() {
-				return this.title.filter(v => !v.pic)
+				return this.title
 			},
 			set(val) {
 				return val
@@ -60,10 +60,10 @@ export default {
 	},
 	methods: {
 		getDetailList() {
-			this.api.getListItem(this.data.params).then(
+			this.api.get245BtListItem(this.data.path).then(
 				res => {
-					this.title = res.title || []
-					this.body = res.list || []
+					this.title = res.header || []
+					this.body = res.body || []
 					console.log(['detailRes', res])
 				},
 				err => {

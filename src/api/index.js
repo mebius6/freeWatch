@@ -9,7 +9,7 @@ const services1 = {
   port: 3000
 }
 const api = {
-   /********************* www.1156zy.com api *****************/
+  /********************* www.1156zy.com api *****************/
   // 列表查询
   getList: params => {
     return new Promise((resolve, reject) => {
@@ -67,6 +67,19 @@ const api = {
       http.get(prefix, params, services1).then(
         res => {
           return resolve(parse.parse245BtListHtml(res))
+          // return resolve(res)
+        },
+        err => {
+          reject(err)
+        }
+      )
+    })
+  },
+  get245BtListItem: path => {
+    return new Promise((resolve, reject) => {
+      http.get(path, {}, services1).then(
+        res => {
+          return resolve(parse.parse245BtItemHtml(res))
           // return resolve(res)
         },
         err => {

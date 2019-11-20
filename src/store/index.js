@@ -9,7 +9,7 @@ const debug = process.env.NODE_ENV !== 'production'
 export default new Vuex.Store({
   state: {
     header: [], //www.1156zy.com
-    btHeader:[] //www.245bt.com
+    btHeader: [] //www.245bt.com
   },
   mutations: {
     setHeader(state, header) {
@@ -19,7 +19,7 @@ export default new Vuex.Store({
       state.header = header || []
     },
     set245BtHeader(state, header) {
-      state.btHeader=header
+      state.btHeader = header
     }
   },
   actions: {
@@ -58,7 +58,6 @@ export default new Vuex.Store({
           }
         )
       })
-      
     }
   },
   strict: debug,
