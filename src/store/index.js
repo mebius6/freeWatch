@@ -2,14 +2,27 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import createLogger from 'vuex/dist/logger' // 日志调试
 import api from '../api'
+import { storeKey } from '../data/'
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
-
+const func = {
+  setHeader: data => {
+    uni.setStorage({
+      key: storeKey.vuexStore,
+      data: JSON.stringify(data || '[]')
+    })
+  }
+}
 export default new Vuex.Store({
   state: {
-    header: [], //www.1156zy.com
-    btHeader: [] //www.245bt.com
+    header: uni.getStorage({
+      key: storeKey.vuexStore
+    }), //www.1156zy.com
+    btHeader: uni.getStorage({
+      key: storeKey.vuexStore
+    }), //www.245bt.com
+    currentRefresh: true // 是否刷新
   },
   mutations: {
     setHeader(state, header) {
@@ -20,6 +33,9 @@ export default new Vuex.Store({
     },
     set245BtHeader(state, header) {
       state.btHeader = header
+    },
+    refresh(state, data) {
+      state.currentRefresh = data
     }
   },
   actions: {
@@ -32,6 +48,7 @@ export default new Vuex.Store({
         api.getList(params).then(
           res => {
             if (res.header) {
+              func.setHeader(res.header)
               commit('setHeader', res.header)
             }
           },
@@ -50,6 +67,7 @@ export default new Vuex.Store({
         api.get245BtHeader(params).then(
           res => {
             if (res.length) {
+              func.setHeader(res)
               commit('set245BtHeader', res)
             }
           },
@@ -58,6 +76,10 @@ export default new Vuex.Store({
           }
         )
       })
+    },
+    // 修改页面状态
+    refresh({ commit }, data) {
+      commit('refresh', data)
     }
   },
   strict: debug,
