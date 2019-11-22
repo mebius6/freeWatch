@@ -292,21 +292,22 @@ let parse = {
     bodyDom.each((i, v) => {
       if (i !== bodyDom.length - 1) {
         let dom = $(v).find('.stui-pannel_hd')
+        let listDoms = $(v).find('.col-pd')
         let source = dom
           .find('.stui-pannel__head .title')
           .text()
           .trim()
-        let listDom = $(v).find('.col-pd .stui-content__playlis')
-        console.log(['source', source])
-        console.log(['listDom', listDom])
+        let listDom = listDoms.find('li')
         if (listDom.length) {
-          let list = listDom.map((index, item) => {
+          let list=[]
+          listDom.each((index, item) => {
             let urlDom = $(item).find('a')
-            return {
+            list.push({
               path: urlDom.attr('href'),
               title: urlDom.text().trim()
-            }
+            })
           })
+        
           body.push({
             source,
             list
@@ -314,7 +315,7 @@ let parse = {
         }
       }
     })
-    console.log(['bodyDom', bodyDom])
+ 
     datas.header = unit.objectArrayReduce(header, 'label')
     datas.body = body
     datas.desc = desc.filter(v => v.label && v.value)

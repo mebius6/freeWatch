@@ -2,8 +2,8 @@
 	<view>
 		<navbar-tabs v-if="tabsList.length" :tabsList="tabsList" :page="page" :activeIndex="activeIndex" @tabsClickItem="tabsClickItem">
 			<view slot="list">
-				<grid :showBorder="false" :data="data" @change="gridChange"></grid>
-				<uni-load-more :status="status" :content-text="contentText" color="#007aff" />
+				<grid :showBorder="false" :data="list" @change="gridChange"></grid>
+				<!-- <uni-load-more :status="status" :content-text="contentText" color="#007aff" /> -->
 			</view>
 		</navbar-tabs>
 
@@ -29,7 +29,7 @@ export default {
 			page: 4,
 			pageIndex: 1,
 			tabsList: [],
-			data: [],
+			list: [],
 			params: {},
 			status: 'more',
 			statusTypes: [
@@ -58,7 +58,7 @@ export default {
 	},
 	async onShow() {
 		let vm = this
-		if (!vm.data.length) {
+		if (!vm.list.length) {
 			let header = vm.$store.state.btHeader.find(v => v.title === '电影')
 
 			console.log(['header', header, vm.$store.state.btHeader])
@@ -102,7 +102,7 @@ export default {
 			console.log(['tabsClick', item])
 			vm.pageIndex = 1
 			vm.status = 'more'
-			vm.data = []
+			vm.list = []
 			if (item.path) {
 				vm.params = {
 					path: item.path
@@ -145,9 +145,12 @@ export default {
 						}
 					}) || []
 				vm.status = !list.length || list.length < 12 ? 'noMore' : 'more'
-
-				vm.data = unit.objectArrayReduce([...vm.data, ...list], 'title')
-				console.log(['data', vm.data])
+				let pages=getCurrentPages()
+				let _this=pages[pages.length-1].$vm
+				_this.list=unit.objectArrayReduce([...vm.list, ...list], 'title')
+				// _this.$set(_this,'list',unit.objectArrayReduce([...vm.list, ...list], 'title'))
+				// vm.list = Object.assign(unit.objectArrayReduce([...vm.list, ...list], 'title'))
+				console.log(['data', _this.list])
 				uni.stopPullDownRefresh()
 			}
 		},
