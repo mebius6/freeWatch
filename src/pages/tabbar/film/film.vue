@@ -2,8 +2,8 @@
 	<view>
 		<navbar-tabs v-if="tabsList.length" :tabsList="tabsList" :page="page" :activeIndex="activeIndex" @tabsClickItem="tabsClickItem">
 			<view slot="list">
-				<grid :showBorder="false" :data="list" @change="gridChange"></grid>
-				<!-- <uni-load-more :status="status" :content-text="contentText" color="#007aff" /> -->
+				<grid :showBorder="false" :data="pageList" @change="gridChange"></grid>
+				<uni-load-more :status="status" :content-text="contentText" color="#007aff" />
 			</view>
 		</navbar-tabs>
 
@@ -50,6 +50,16 @@ export default {
 				contentdown: '查看更多',
 				contentrefresh: '加载中',
 				contentnomore: '没有更多'
+			}
+		}
+	},
+	computed: {
+		pageList: {
+			get() {
+				return this.list
+			},
+			set(val) {
+				return val
 			}
 		}
 	},
@@ -145,38 +155,15 @@ export default {
 						}
 					}) || []
 				vm.status = !list.length || list.length < 12 ? 'noMore' : 'more'
-				let pages=getCurrentPages()
-				let _this=pages[pages.length-1].$vm
-				_this.list=unit.objectArrayReduce([...vm.list, ...list], 'title')
+
+				vm.list = unit.objectArrayReduce([...vm.list, ...list], 'title')
 				// _this.$set(_this,'list',unit.objectArrayReduce([...vm.list, ...list], 'title'))
 				// vm.list = Object.assign(unit.objectArrayReduce([...vm.list, ...list], 'title'))
-				console.log(['data', _this.list])
+
 				uni.stopPullDownRefresh()
 			}
 		},
-		// 滚动到顶部(左边)
-		upper(e) {
-			console.log(e)
-		},
-		// 滚动到底部(右边)
-		lower(e) {
-			console.log(['滚动到底部', e])
-		},
-		//滚动时触发
-		scroll(e) {
-			console.log(['滚动时触发', e])
-			// this.old.scrollTop = e.detail.scrollTop
-		},
-		goTop(e) {
-			this.scrollTop = this.old.scrollTop
-			this.$nextTick(function() {
-				this.scrollTop = 0
-			})
-			uni.showToast({
-				icon: 'none',
-				title: '纵向滚动 scrollTop 值已被修改为 0'
-			})
-		},
+
 		goDetail(item) {
 			console.log(['item', item])
 			let data = JSON.stringify(item)
@@ -189,7 +176,7 @@ export default {
 			uni.navigateTo({
 				url: `/pages/tabbar-detail/tabbarDetail?data=${item}`
 			})
-			console.log(['gridClick', item])
+			console.log(['gridClick', item, data])
 		}
 	}
 }

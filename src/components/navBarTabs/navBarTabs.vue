@@ -74,9 +74,11 @@ export default {
 		// 获取tabs文字的宽度和划线left
 		widthFun(index) {
 			// tabs元素文字的宽度
-			let textWidth = document.querySelectorAll('.nav-tabs-item')[index]
-				.offsetWidth
-
+			let textWidth = 0
+			if (document.querySelectorAll('.nav-tabs-item')[index]) {
+				textWidth = document.querySelectorAll('.nav-tabs-item')[index]
+					.offsetWidth
+			}
 			// 屏幕的宽度
 			let clientWidth = document.body.clientWidth
 			//下划线宽度

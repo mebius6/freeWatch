@@ -3,7 +3,9 @@
 		<uni-grid :column="gridColumn" :showBorder="gridShowBorder" :borderColor="gridBorderColor" :hor="gridHor" :ver="gridVer" :square="gridSquare" :highlight="gridHighlight" @change="_change" class="free-watch-grid">
 			<uni-grid-item v-for="(item,index) in gridData" :key="index" :img-width="item.imgWidth" :src="item.imgSrc" :hor="item.hor" :ver="item.ver" :marker="item.marker||'image'" class="free-watch-grid-item">
 				<cover-image class="free-watch-grid-image" :width="item.imgWidth" :height="item.imgHeight" :src="item.imgSrc" mode="aspectFill"></cover-image>
-				<text class="free-watch-grid-text">{{item.title}}</text>
+				<view class="free-watch-grid-text">
+					<text>{{item.title}}</text>
+				</view>
 			</uni-grid-item>
 		</uni-grid>
 	</view>
@@ -149,35 +151,27 @@ export default {
 }
 </script>
 
-<style lang="scss" >
+<style lang="scss" scoped>
 .free-watch-grid-container {
 	.free-watch-grid {
 		.free-watch-grid-item {
 			padding: 30rpx 0;
 			min-height: 38vw;
-			.uni-grid-item__box {
-				.uni-grid-item__box-item {
-					display: flex;
-					flex-direction: column;
-					justify-content: space-between;
-					.free-watch-grid-image {
-						min-height: 150%;
-						width: 96%;
-						flex: 0.7;
-						padding: 0 15rpx;
-					}
-					.free-watch-grid-text {
-						flex: 0.3;
-						max-height: 30px;
-						font-size: 14px;
-						span {
-							width: 100%;
-							display: inline-block;
-							overflow: hidden;
-							text-overflow: ellipsis;
-							white-space: nowrap;
-						}
-					}
+			.free-watch-grid-image {
+				height: 40vw;
+				width: 90%;
+				padding: 0 15rpx;
+			}
+			.free-watch-grid-text {
+				min-height: 30%;
+				font-size: 14px;
+				text-align: center;
+				span {
+					width: 100%;
+					display: inline-block;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
 				}
 			}
 		}

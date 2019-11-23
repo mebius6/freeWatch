@@ -78,6 +78,7 @@
     "usingComponents": true
   },
   "h5": {
+    "usingComponents": true,
     "devServer": {
       "https": false,
       "open": true
