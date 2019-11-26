@@ -9,11 +9,7 @@
     >
       <view slot="list">
         <grid :showBorder="false" :data="pageList" @change="gridChange"></grid>
-        <uni-load-more
-          :status="status"
-          :content-text="contentText"
-          color="#007aff"
-        />
+        <uni-load-more :status="status" :content-text="contentText" color="#007aff" />
       </view>
     </navbar-tabs>
   </view>
@@ -78,8 +74,12 @@ export default {
   async onShow() {
     let vm = this;
     if (!vm.list.length) {
-      let header = vm.$store.state.btHeader.find(v => v.title === "电影");
-
+      let btHeader = await vm.$store.state.btHeader.catch(err => {
+        console.log(err);
+      })
+      btHeader=btHeader.filter(v=>v)[0].data
+      console.log(["btHeader", btHeader]);
+      let header = JSON.parse(btHeader).find(v => v.title === "电影");
       console.log(["header", header, vm.$store.state.btHeader]);
       if (header) {
         vm.params = {

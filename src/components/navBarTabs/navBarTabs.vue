@@ -50,7 +50,9 @@ export default {
     };
   },
   mounted() {
-    this.lineStyleFun(this.active);
+    this.$nextTick(()=>{
+      this.lineStyleFun(this.active);
+    })
   },
   computed: {
     tabList: {
@@ -90,7 +92,7 @@ export default {
             size: true
           },
           data => {
-            textWidth = data.width;
+            textWidth = data.width||0;
           }
         )
         .exec();
