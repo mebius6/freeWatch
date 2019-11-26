@@ -109,7 +109,6 @@ export default {
       let itemWidth = 100 / this.pages;
       let left =
         itemWidth * index + (itemWidth - (textWidth / windowWidth) * 100) / 2;
-      console.log([{ textWidth, left, windowWidth }]);
       return { textWidth, left };
     },
     // 设置tabs下划线样式

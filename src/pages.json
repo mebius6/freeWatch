@@ -4,6 +4,8 @@
       "path": "pages/tabbar/film/film",
       "style": {
         "navigationBarTitleText": "电影",
+        "animationType": "fade-in",
+        "animationDuration": 300,
         "enablePullDownRefresh": true
       }
     },
@@ -11,6 +13,8 @@
       "path": "pages/tabbar/tvSeries/tvSeries",
       "style": {
         "navigationBarTitleText": "连续剧",
+        "animationType": "fade-in",
+        "animationDuration": 300,
         "enablePullDownRefresh": true
       }
     },
@@ -18,6 +22,8 @@
       "path": "pages/tabbar/variety/variety",
       "style": {
         "navigationBarTitleText": "综艺",
+        "animationType": "fade-in",
+        "animationDuration": 300,
         "enablePullDownRefresh": true
       }
     },
@@ -25,11 +31,18 @@
       "path": "pages/tabbar/anime/anime",
       "style": {
         "navigationBarTitleText": "动漫",
+        "animationType": "fade-in",
+        "animationDuration": 300,
         "enablePullDownRefresh": true
       }
     },
     {
-      "path": "pages/tabbar-detail/tabbarDetail"
+      "path": "pages/tabbar-detail/tabbarDetail",
+      "style": {
+        "animationType": "fade-in",
+        "animationDuration": 300,
+        "enablePullDownRefresh": true
+      }
     }
   ],
   "globalStyle": {
