@@ -9,7 +9,7 @@ const netPrefix = "erpapi/api";
 const whitelist = [
   // { name: 'commonUpload', path: 'fileUpload/upload' }
 ];
-const loadingText = "正在努力加载中";
+const loadingText = "loading...";
 // 服务接口地址
 const services = {
   commonBase: {
