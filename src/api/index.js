@@ -92,6 +92,7 @@ const api = {
     return new Promise((resolve, reject) => {
       http.get(path, {}, services1).then(
         res => {
+          console.log(["get245BtPlayerUrl", res]);
           return resolve(parse.parser245BtPlayerUrl(res));
           // return resolve(res)
         },

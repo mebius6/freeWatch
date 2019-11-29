@@ -37,20 +37,20 @@ export default {
 			// firefox 页面刷新只执行 onunload，页面关闭只执行 onbeforeunload
 			let eventName = 'beforeunload'
 			if (navigator) {
-			}
-			const fireFox = navigator.userAgent.indexOf('Firefox') !== -1
-			if (fireFox) {
-				eventName = 'unload'
-				window.addEventListener(eventName, () => {
-					// 根据 currentRefresh 判断是退出还是刷新
-					const currentRefresh = this.$store.state.currentRefresh
-					if (currentRefresh) {
-						uni.setStorageSync(
-							storeKey.vuexStore,
-							JSON.stringify(this.$store.state)
-						)
-					}
-				})
+				const fireFox = navigator.userAgent.indexOf('Firefox') !== -1
+				if (fireFox) {
+					eventName = 'unload'
+					window.addEventListener(eventName, () => {
+						// 根据 currentRefresh 判断是退出还是刷新
+						const currentRefresh = this.$store.state.currentRefresh
+						if (currentRefresh) {
+							uni.setStorageSync(
+								storeKey.vuexStore,
+								JSON.stringify(this.$store.state)
+							)
+						}
+					})
+				}
 			}
 
 			// console.log(JSON.stringify(this.$store.state))

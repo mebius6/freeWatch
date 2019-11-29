@@ -43,6 +43,14 @@
         "animationDuration": 300,
         "enablePullDownRefresh": true
       }
+    },
+    {
+      "path": "pages/player-item/playerItem",
+      "style": {
+        "animationType": "fade-in",
+        "animationDuration": 300,
+        "enablePullDownRefresh": true
+      }
     }
   ],
   "globalStyle": {
@@ -80,6 +88,17 @@
         "iconPath": "static/img/tabbar/anime.png",
         "selectedIconPath": "static/img/tabbar/anime-active.png",
         "text": "动漫"
+      }
+    ]
+  },
+  "condition": {
+    //模式配置，仅开发期间生效
+    "current": 0, //当前激活的模式(list 的索引项)
+    "list": [
+      {
+        "name": "", //模式名称
+        "path": "pages/tabbar/film/film", //启动页面，必选
+        "query": "" //启动参数，在页面的onLoad函数里面得到
       }
     ]
   }

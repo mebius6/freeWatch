@@ -2,7 +2,7 @@
 	<view>
 		<navbar-tabs v-if="tabsList.length" :tabsList="tabsList" :page="page" :activeIndex="activeIndex" @tabsClickItem="tabsClickItem">
 			<view slot="list">
-				<grid :showBorder="false" :data="pageList" @change="gridChange"></grid>
+				<grid :showBorder="false" :list="pageList" @change="gridChange"></grid>
 				<uni-load-more :status="status" :content-text="contentText" color="#007aff" />
 			</view>
 		</navbar-tabs>
@@ -71,7 +71,7 @@ export default {
 		if (!vm.list.length) {
 			try {
 				console.log(vm.$store.state.btHeader)
-				vm.btHeader = vm.$store.state.btHeader
+				vm.btHeader = vm.$store.state.btHeader || []
 			} catch (error) {
 				vm.btHeader = []
 				console.log(error)
@@ -81,21 +81,24 @@ export default {
 				vm.params = {
 					path: header.path
 				}
-				uni.showLoading({
-					title: this.$config.loadingText
-				})
+				// uni.showLoading({
+				// 	title: this.$config.loadingText
+				// })
 				await vm.getList(header.path)
-				uni.hideLoading()
+				// uni.hideLoading()
 			}
 		}
 	},
 	// 下拉刷新
-	async onPullDownRefresh() {
-		uni.showLoading({
-			title: this.$config.loadingText
-		})
-		await this.getList(this.params.path)
-		uni.hideLoading()
+	onPullDownRefresh() {
+		console.log(['下拉刷新'])
+		let vm = this
+		uni.startPullDownRefresh()
+		if (vm.status === 'nomore') {
+			return false
+		}
+		vm.getList(this.params.path)
+		uni.stopPullDownRefresh()
 	},
 	// 上拉加载
 	async onReachBottom() {
@@ -103,18 +106,20 @@ export default {
 		if (vm.status === 'nomore') {
 			return false
 		}
-
 		uni.showNavigationBarLoading()
 		vm.pageIndex += 1
 		let path = vm.params.path.split('.')
 		path[0] = `${path[0]}-${vm.pageIndex}`
 		let newPath = path.join('.')
-		console.log(['newPath', newPath])
 		await vm.getList(newPath)
 		uni.hideNavigationBarLoading()
 	},
 	// 切换底部tab
-	onTabItemTap(item) {},
+	onTabItemTap() {
+		let vm = this
+		let items = vm.tabsList.find(v => v.title === '全部')
+		vm.getList(items.path)
+	},
 	methods: {
 		// 切换顶部tab
 		async tabsClickItem(item) {
@@ -125,24 +130,18 @@ export default {
 			vm.status = 'more'
 			vm.list = []
 			if (item.path) {
-				uni.showLoading({
-					title: this.$config.loadingText
-				})
 				vm.params = {
 					path: item.path
 				}
 				await vm.getList(item.path)
-				uni.hideLoading()
 			}
 		},
 		async getList(path = '') {
 			let vm = this
 			if (path) {
-				uni.startPullDownRefresh()
 				vm.status = 'loading'
 				let res = await vm.api.get245BtTabData(path, {}).catch(err => {
 					vm.status = 'nomore'
-					uni.stopPullDownRefresh()
 					vm.getList()
 				})
 				if (!res) return false

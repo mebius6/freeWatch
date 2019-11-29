@@ -16,7 +16,7 @@ import { uniGrid, uniGridItem } from '@dcloudio/uni-ui'
 
 export default {
 	props: {
-		data: {
+		list: {
 			type: Array,
 			default: () => []
 		},
@@ -67,7 +67,7 @@ export default {
 	computed: {
 		gridData: {
 			get() {
-				return this.data
+				return this.list
 			},
 			set(val) {
 				return val
@@ -156,15 +156,18 @@ export default {
 	.free-watch-grid {
 		padding: 15rpx 0;
 		.free-watch-grid-item {
-			min-height: 50vw;
+			min-height: 355rpx;
+			.uni-grid-item {
+				height: 100%;
+			}
 			.free-watch-grid-image {
-				height: 40vw;
+				height: 100%;
 				width: 90%;
 				padding: 0 15rpx;
 			}
 			.free-watch-grid-text {
-				min-height: 30%;
-				font-size: 14rpx;
+				min-height: 50rpx;
+				font-size: 12px;
 				text-align: center;
 				span {
 					width: 100%;

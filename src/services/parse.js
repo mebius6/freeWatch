@@ -331,7 +331,26 @@ let parse = {
       xmlMode: true
     });
     let iframe = $("#cciframe");
-    console.log(["iframe", iframe]);
+    /**
+     * "var vid="72304";
+     * var vfrom="0";
+     * var vpart="0";
+     * var now=unescape("https%3A%2F%2Fiqiyi.com-qqcdn.com%2Fshare%2Facf666483bc8723fae7feda6f6a9cb7a");
+     * var pn="yunbo";
+     * var next=unescape("");
+     * var prePage="/play/72304-0-0.html";
+     * var nextPage="/play/72304-0-0.html";"
+     */
+    let playerUrlArr = iframe.prev()[0].children[0].data.split(";");
+    let playerUrlItem = (playerUrlArr || []).find(v => v.indexOf("now") > -1);
+    let playerUrl = "";
+    try {
+      playerUrl = playerUrlItem.match(/unescape\("(\S*)"\)/)[1];
+      playerUrl = decodeURIComponent(playerUrl);
+    } catch (error) {}
+    return {
+      url: playerUrl
+    };
   }
 };
 

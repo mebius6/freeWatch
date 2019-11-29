@@ -1,5 +1,6 @@
 <template>
 	<view class="tarbar-detail">
+
 		<view class="tarbar-detail-title">
 
 			<view class="tarbar-detail-title-left">
@@ -41,6 +42,7 @@ export default {
 		})
 
 		try {
+			console.log(['option', option])
 			this.data = JSON.parse(option.data)
 			//option为object类型，会序列化上个页面传递的参数
 			console.log(this.data) //打印出上个页面传递的参数。
@@ -94,8 +96,11 @@ export default {
 		},
 		imageError() {},
 		playerItem(item) {
-			this.api.get245BtPlayerUrl(item.path).then(res => {
-				console.log(['res', res])
+			console.log(['item', item])
+			item.title = this.title
+			let data = JSON.stringify(item)
+			uni.navigateTo({
+				url: `/pages/player-item/playerItem?data=${data}`
 			})
 		}
 	}
@@ -122,7 +127,7 @@ export default {
 		}
 		&-right {
 			flex: 0.7;
-			font-size: 28rpx;
+			font-size: 14px;
 			color: @free-watch-from-gray-color;
 		}
 	}
