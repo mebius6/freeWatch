@@ -351,6 +351,14 @@ let parse = {
     return {
       url: playerUrl
     };
+  },
+  parse245BtSearchList: data => {
+    let $ = cheerio.load(data, {
+      ignoreWhitespace: true,
+      xmlMode: true
+    });
+    let searchDom = $(".stui-vodlist__media.col-pd");
+    console.log(["searchDom", searchDom]);
   }
 };
 

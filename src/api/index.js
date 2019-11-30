@@ -49,6 +49,7 @@ const api = {
     });
   },
   /********************* www.245bt.com api *****************/
+  // 获得tabs列表
   get245BtHeader: params => {
     return new Promise((resolve, reject) => {
       http.get("", params, services1).then(
@@ -62,6 +63,7 @@ const api = {
       );
     });
   },
+  // 根据tab 拉取list
   get245BtTabData: (prefix, params) => {
     return new Promise((resolve, reject) => {
       http.get(prefix, params, services1).then(
@@ -75,6 +77,7 @@ const api = {
       );
     });
   },
+  // 获得明细详情
   get245BtListItem: path => {
     return new Promise((resolve, reject) => {
       http.get(path, {}, services1).then(
@@ -88,12 +91,27 @@ const api = {
       );
     });
   },
+  // 解析视频url
   get245BtPlayerUrl: path => {
     return new Promise((resolve, reject) => {
       http.get(path, {}, services1).then(
         res => {
           console.log(["get245BtPlayerUrl", res]);
           return resolve(parse.parser245BtPlayerUrl(res));
+          // return resolve(res)
+        },
+        err => {
+          reject(err);
+        }
+      );
+    });
+  },
+  // 模糊搜索
+  search245BtBykeywords: (prefix, params) => {
+    return new Promise((resolve, reject) => {
+      http.get(prefix, params, services1).then(
+        res => {
+          return resolve(parse.parse245BtListHtml(res));
           // return resolve(res)
         },
         err => {

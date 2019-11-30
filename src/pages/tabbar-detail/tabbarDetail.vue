@@ -14,11 +14,13 @@
 		</view>
 		<view class="tarbar-detail-body">
 			<view class="tarbar-detail-body-section" v-for="(item, index) in body" :key="item.source">
-				<view>
+				<view class="tarbar-detail-body-section-source">
 					<text>{{ item.source }}</text>
 				</view>
-				<view class="tarbar-detail-body-section-item" v-for="(v, i) in item.list" :key="i" @click="playerItem(v)">
-					<text>{{ v.title }}</text>
+				<view class="tarbar-detail-body-section-item">
+					<view class="player-title" v-for="(v, i) in item.list" :key="i" @click="playerItem(v,item.list)">
+						<text class="player-title-text">{{ v.title }}</text>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -92,15 +94,18 @@ export default {
 			this.title = res.header || []
 			this.body = res.body || []
 			this.author = res.author || ''
-			console.log(['detailRes', res])
+			console.log(['body', res.body])
 		},
 		imageError() {},
-		playerItem(item) {
-			console.log(['item', item])
-			item.title = this.title
-			let data = JSON.stringify(item)
+		playerItem(item, list) {
+			let data = Object.assign(item)
+			data.author = this.data.title || this.author
+
+			console.log(['data', data])
+			let datas = JSON.stringify(data)
+			let lists = JSON.stringify(list)
 			uni.navigateTo({
-				url: `/pages/player-item/playerItem?data=${data}`
+				url: `/pages/player-item/playerItem?data=${datas}&list=${lists}`
 			})
 		}
 	}
@@ -129,6 +134,35 @@ export default {
 			flex: 0.7;
 			font-size: 14px;
 			color: @free-watch-from-gray-color;
+		}
+	}
+	&-body {
+		padding: 0 15px;
+		&-section {
+			margin-bottom: 10px;
+			display: flex;
+			flex-direction: column;
+			&-source {
+				font-size: 15px;
+				margin-bottom: 10px;
+			}
+			&-item {
+				font-size: 14px;
+				display: flex;
+				justify-content: flex-start;
+				padding: 0 10px;
+				flex-wrap: wrap;
+				.player-title {
+					width: 17vw;
+					text-align: center;
+					color: #333;
+					border: 1px solid #eee;
+					border-radius: 2px;
+					padding: 2px 5px;
+					margin: 2px;
+					.textHide();
+				}
+			}
 		}
 	}
 }
