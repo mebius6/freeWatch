@@ -6,7 +6,18 @@
         "navigationBarTitleText": "电影",
         "animationType": "fade-in",
         "animationDuration": 300,
-        "enablePullDownRefresh": true
+        "enablePullDownRefresh": true,
+        "titleNView": {
+          "buttons": [
+            {
+              "text": "\ue613",
+              "fontSrc": "/static/iconfont/iconfont.ttf",
+              "fontSize": "16px",
+              "redDot": false,
+              "type": "search"
+            }
+          ]
+        }
       }
     },
     {
@@ -15,7 +26,18 @@
         "navigationBarTitleText": "连续剧",
         "animationType": "fade-in",
         "animationDuration": 300,
-        "enablePullDownRefresh": true
+        "enablePullDownRefresh": true,
+        "titleNView": {
+          "buttons": [
+            {
+              "text": "\ue613",
+              "fontSrc": "/static/iconfont/iconfont.ttf",
+              "fontSize": "16px",
+              "redDot": false,
+              "type": "search"
+            }
+          ]
+        }
       }
     },
     {
@@ -24,7 +46,18 @@
         "navigationBarTitleText": "综艺",
         "animationType": "fade-in",
         "animationDuration": 300,
-        "enablePullDownRefresh": true
+        "enablePullDownRefresh": true,
+        "titleNView": {
+          "buttons": [
+            {
+              "text": "\ue613",
+              "fontSrc": "/static/iconfont/iconfont.ttf",
+              "fontSize": "16px",
+              "redDot": false,
+              "type": "search"
+            }
+          ]
+        }
       }
     },
     {
@@ -33,7 +66,18 @@
         "navigationBarTitleText": "动漫",
         "animationType": "fade-in",
         "animationDuration": 300,
-        "enablePullDownRefresh": true
+        "enablePullDownRefresh": true,
+        "titleNView": {
+          "buttons": [
+            {
+              "text": "\ue613",
+              "fontSrc": "/static/iconfont/iconfont.ttf",
+              "fontSize": "16px",
+              "redDot": false,
+              "type": "search"
+            }
+          ]
+        }
       }
     },
     {
@@ -47,6 +91,23 @@
     {
       "path": "pages/player-item/playerItem",
       "style": {
+        "animationType": "fade-in",
+        "animationDuration": 300,
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/tabbar-page/tabbarPage",
+      "style": {
+        "animationType": "fade-in",
+        "animationDuration": 300,
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/search-result/searchResult",
+      "style": {
+        "navigationBarTitleText": "搜索",
         "animationType": "fade-in",
         "animationDuration": 300,
         "enablePullDownRefresh": true

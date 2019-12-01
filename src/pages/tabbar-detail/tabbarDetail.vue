@@ -13,7 +13,7 @@
 			</view>
 		</view>
 		<view class="tarbar-detail-body">
-			<view class="tarbar-detail-body-section" v-for="(item, index) in body" :key="item.source">
+			<view class="tarbar-detail-body-section" v-for="(item) in body" :key="item.source">
 				<view class="tarbar-detail-body-section-source">
 					<text>{{ item.source }}</text>
 				</view>

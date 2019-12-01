@@ -1,34 +1,30 @@
 <template>
-  <view>
-    <navbar-tabs
-      v-if="tabsList.length"
-      :tabsList="tabsList"
-      :page="page"
-      :activeIndex="activeIndex"
-      @tabsClickItem="tabsClickItem"
-    >
-      <view slot="list">
-        <grid :showBorder="false" :list="pageList" @change="gridChange"></grid>
-        <uni-load-more
-          :status="status"
-          :content-text="contentText"
-          color="#007aff"
-        />
-      </view>
-    </navbar-tabs>
-  </view>
+  <navbar-tabs
+    v-if="tabsList.length"
+    :tabsList="tabsList"
+    :page="page"
+    :activeIndex="activeIndex"
+    @tabsClickItem="tabsClickItem"
+  >
+    <view slot="list" class="free-watch-list" v-if="pageList.length">
+      <grid :showBorder="false" :list="pageList" @change="gridChange"></grid>
+      <uni-load-more
+        :status="status"
+        :content-text="contentText"
+        color="#007aff"
+      />
+    </view>
+  </navbar-tabs>
 </template>
-
 <script>
-import grid from '../../components/grid/grid';
 import { uniLoadMore } from '@dcloudio/uni-ui';
-import unit from '../../../services/unit';
+import unit from '../../services/unit';
 export default {
-  components: { grid, uniLoadMore },
+  components: { uniLoadMore },
   props: {
-    navigationBarTextStyle: {
+    checkedPage: {
       type: String,
-      defalut: '电影'
+      default: '电影'
     }
   },
   data() {
@@ -73,11 +69,18 @@ export default {
       }
     }
   },
+  // watch: {
+  //   checkedPage(val,oldVal){
+  //     if(val!==oldVal){
+
+  //     }
+  //   }
+  // },
   onLoad() {
     // uni.startPullDownRefresh()
   },
-  async onShow() {
-    await this.getDefault();
+  mounted() {
+    this.reload();
   },
   // 下拉刷新
   onPullDownRefresh() {
@@ -104,24 +107,7 @@ export default {
     await vm.getList(newPath);
     uni.hideNavigationBarLoading();
   },
-  // 切换底部tab
-  async onTabItemTap() {
-    let vm = this;
-    await vm.getDefault();
-    let items = vm.tabsList.find(v => v.title === '全部');
-    if (items.path) {
-      vm.getList(items.path);
-    }
-  },
-  //导航栏搜索按钮点击事件
-  onNavigationBarButtonTap(e) {
-    console.log(e);
-    if (e.type === 'search') {
-      uni.navigateTo({
-        url: `/pages/search-result/searchResult`
-      });
-    }
-  },
+
   methods: {
     // 切换顶部tab
     async tabsClickItem(item) {
@@ -155,7 +141,7 @@ export default {
         });
         tabs.unshift({
           title: '全部',
-          path: vm.btHeader.find(v => v.title === '电影').path
+          path: vm.btHeader.find(v => v.title === vm.checkedPage).path
         });
         vm.tabsList = tabs;
         let list =
@@ -176,8 +162,9 @@ export default {
         uni.stopPullDownRefresh();
       }
     },
-    async getDefault() {
+    async reload() {
       let vm = this;
+      console.log(this);
       if (!vm.list.length) {
         try {
           console.log(vm.$store.state.btHeader);
@@ -186,7 +173,7 @@ export default {
           vm.btHeader = [];
           console.log(error);
         }
-        let header = vm.btHeader.find(v => v.title === '电影');
+        let header = vm.btHeader.find(v => v.title === vm.checkedPage);
         if (header) {
           vm.params = {
             path: header.path
@@ -209,11 +196,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.content {
-  text-align: center;
-  height: 400upx;
-  margin-top: 200upx;
-}
-</style>

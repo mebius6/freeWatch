@@ -7,7 +7,7 @@
 		<!-- #endif-->
 
 		<!-- #ifdef H5 -->
-		<dplayer class="free-watch-player-row" ref="player" @on-play="play" :video="video" :contextmenu="contextmenu"></dplayer>
+		<dplayer v-if="video.url" class="free-watch-player-row" ref="player" @on-play="play" :video="video" :contextmenu="contextmenu"></dplayer>
 		<!-- #endif -->
 	</view>
 </template>
@@ -26,26 +26,13 @@ export default {
 		return {
 			// #ifdef H5
 			video: {
-				quality: [],
-				url: 'https://mei.huazuida.com/20191128/17893_5835dd17/index.m3u8',
+				url: '',
 				defaultQuality: 1,
 				type: 'hls'
 			},
 			autoplay: true,
 			player: null,
 			contextmenu: [
-				{
-					text: '博客园',
-					link: 'http://www.cnblogs.com/maqingyuan/'
-				},
-				{
-					text: '博客园',
-					link: 'http://www.cnblogs.com/maqingyuan/'
-				},
-				{
-					text: '博客园',
-					link: 'http://www.cnblogs.com/maqingyuan/'
-				}
 			],
 			// #endif
 			option: {},
@@ -69,7 +56,7 @@ export default {
 				title: this.option.author
 			})
 		} catch (error) {
-			console.log(error)
+			this.getPlayerUrl(this.option)
 		}
 
 		uni.hideLoading()
@@ -82,10 +69,13 @@ export default {
 			})
 			if (!res) return false
 			console.log(['res', res])
-			this.video.quality.push({
-				name: this.option.title,
-				url: res.url
-			})
+			// #ifndef H5
+			this.url=res.url
+			// #endif
+
+			//  #ifdef H5
+			this.video.url=res.url
+			// #endif
 		},
 		fullscreenchange(event) {
 			// 横屏

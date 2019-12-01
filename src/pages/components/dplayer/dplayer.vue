@@ -1,5 +1,5 @@
 <template>
-	<p class="dplayer"></p>
+	<view class="dplayer"></view>
 </template>
 
 <script>
@@ -101,6 +101,17 @@ export default {
 		},
 		playerLogo() {
 			return this.logo
+		},
+		
+	},
+	watch: {
+		video:{
+			handler(newVal){
+				if(!newVal.url){
+					this.dp.destory()
+				}
+			},
+			deep:true
 		}
 	},
 	mounted() {
@@ -133,7 +144,7 @@ export default {
 				type: this.video.type
 			}
 		}))
-
+		console.log(['video',this.playerVideo])
 		player.on('play', () => {
 			this.$emit('play')
 		})

@@ -14,6 +14,7 @@ export default {
 		// console.log(['btres', res])
 	},
 	onHide() {},
+
 	methods: {
 		// 解决防止刷新页面 vuex store 丢失的问题
 		resetStore() {
@@ -27,6 +28,8 @@ export default {
 					})
 					this.$store.replaceState(store)
 					uni.removeStorageSync(storeKey.vuexStore)
+				}else{
+					this.$store.dispatch('get245BtHeader')
 				}
 			} catch (error) {
 				console.log(error)
