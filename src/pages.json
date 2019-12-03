@@ -96,14 +96,7 @@
         "enablePullDownRefresh": true
       }
     },
-    {
-      "path": "pages/tabbar-page/tabbarPage",
-      "style": {
-        "animationType": "fade-in",
-        "animationDuration": 300,
-        "enablePullDownRefresh": true
-      }
-    },
+
     {
       "path": "pages/search-result/searchResult",
       "style": {

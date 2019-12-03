@@ -9,8 +9,7 @@ export default {
 	props: {
 		autoplay: {
 			type: Boolean,
-
-			default: false
+			default: true
 		},
 
 		theme: {
@@ -101,73 +100,88 @@ export default {
 		},
 		playerLogo() {
 			return this.logo
-		},
-		
-	},
-	watch: {
-		video:{
-			handler(newVal){
-				if(!newVal.url){
-					this.dp.destory()
-				}
-			},
-			deep:true
 		}
 	},
+
 	mounted() {
-		const player = (this.dp = new DPlayer({
-			element: this.$el,
+		this.initPlayer()
+	},
+	methods: {
+		initPlayer() {
+			const player = (this.dp = new DPlayer({
+				element: this.$el,
 
-			autoplay: this.playerAutoplay,
+				autoplay: this.playerAutoplay,
 
-			theme: this.playerTheme,
+				theme: this.playerTheme,
 
-			loop: this.playerLoop,
+				loop: this.playerLoop,
 
-			lang: this.playerLang,
+				lang: this.playerLang,
 
-			screenshot: this.playerScreenshot,
+				screenshot: this.playerScreenshot,
 
-			hotkey: this.playerHotkey,
+				hotkey: this.playerHotkey,
 
-			preload: this.playerPreload,
+				preload: this.playerPreload,
 
-			contextmenu: this.playerContextmenu,
+				contextmenu: this.playerContextmenu,
 
-			logo: this.playerLogo,
+				logo: this.playerLogo,
 
-			video: {
-				url: this.video.url,
+				video: {
+					url: this.video.url,
 
-				pic: this.video.pic,
+					pic: this.video.pic,
 
-				type: this.video.type
-			}
-		}))
-		console.log(['video',this.playerVideo])
-		player.on('play', () => {
-			this.$emit('play')
-		})
+					type: this.video.type
+				}
+			}))
+			player.on('play', () => {
+				this.$emit('on-play')
+			})
 
-		player.on('pause', () => {
-			this.$emit('pause')
-		})
+			player.on('pause', () => {
+				this.$emit('pause')
+			})
 
-		player.on('canplay', () => {
-			this.$emit('canplay')
-		})
+			player.on('canplay', () => {
+				this.$emit('canplay')
+			})
 
-		player.on('playing', () => {
-			this.$emit('playing')
-		})
+			player.on('playing', () => {
+				this.$emit('on-playing', {
+					currentTime: player.video.currentTime,
+					duration: player.video.duration
+				})
+			})
 
-		player.on('ended', () => {
-			this.$emit('ended')
-		})
+			player.on('ended', () => {
+				this.$emit('on-ended')
+			})
 
-		player.on('error', () => {
-			this.$emit('error')
-		})
+			player.on('error', () => {
+				this.$emit('error')
+			})
+		}
+	},
+	watch: {
+		video: {
+			handler(newVal) {
+				if (!newVal.url) {
+					this.dp.destory()
+				}
+				this.initPlayer()
+			},
+			deep: true
+		}
+		// 'video.url': newProps => {
+		// 	console.log(['newProps', newProps, this])
+		// 	// if (this.dp) {
+		// 	// 	this.dp.destory()
+		// 	// }
+		// 	this.initPlayer()
+		// }
 	}
 }
 </script>
