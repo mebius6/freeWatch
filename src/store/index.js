@@ -15,7 +15,8 @@ export default new Vuex.Store({
   state: {
     header: uni.getStorageSync(storeKey.vuexStore), //www.1156zy.com
     btHeader: uni.getStorageSync(storeKey.vuexStore), //www.245bt.com
-    currentRefresh: true // 是否刷新
+    currentRefresh: true, // 是否刷新
+    systemInfo: {} // 系统信息
   },
   mutations: {
     setHeader(state, header) {
@@ -29,6 +30,11 @@ export default new Vuex.Store({
     },
     refresh(state, data) {
       state.currentRefresh = data;
+    },
+    setSystemInfo(state, data) {
+      if (data) {
+        state.systemInfo = data;
+      }
     }
   },
   actions: {
@@ -73,6 +79,10 @@ export default new Vuex.Store({
     // 修改页面状态
     refresh({ commit }, data) {
       commit("refresh", data);
+    },
+    getSystemInfo({ commit }) {
+      let data = uni.getSystemInfoSync();
+      commit("setSystemInfo", data);
     }
   },
   strict: debug,

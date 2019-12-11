@@ -1,14 +1,14 @@
 <template>
 	<view class="free-watch-player">
-		<!-- #ifndef H5 -->
-		<video name="media" muted="muted" autoplay="autoplay" controls="controls" loop="loop" class="free-watch-player-row" :src="url" direction="90" @fullscreenchange="fullscreenchange">
-			<source :src="url" type="video/m3u8" />
-		</video>
-		<!-- #endif-->
 
-		<!-- #ifdef H5 -->
-		<dplayer v-if="video.url" class="free-watch-player-row" ref="player" @on-ended="ended" @on-playing="playing" :video="video" :contextmenu="contextmenu"></dplayer>
-		<!-- #endif -->
+		<video v-if="(systemInfo.platform==='android'||systemInfo.platform==='ios')&&url" name="media" :muted="true" :autoplay="true" :controls="true" :loop="true" :enable-progress-gesture="true" :show-center-play-btn="true" :show-play-btn="true" :show-fullscreen-btn="true" :show-progress="true" :page-gesture="true" initial-time="60" class="free-watch-player-row" :src="url" direction="90" @fullscreenchange="fullscreenchange">
+			<cover-view class="controls-title">简单的自定义 controls</cover-view>
+		</video>
+
+		<view>{{systemInfo.platform}}{{`url:${url}`}}</view>
+
+		<dplayer v-if="systemInfo.platform==='other'&&video.url" class="free-watch-player-row" ref="player" @on-ended="ended" @on-playing="playing" :video="video" :contextmenu="contextmenu"></dplayer>
+
 		<view class="tarbar-detail-body-section-item">
 			<view :class="title===v.title?'player-title active':'player-title'" v-for="(v, i) in body" :key="i" @click="playerItem(v)">
 				<text class="player-title-text">{{ v.title }}</text>
@@ -35,6 +35,7 @@ export default {
 				defaultQuality: 1,
 				type: 'hls'
 			},
+			systemInfo: {},
 			autoplay: true,
 			player: null,
 			body: [],
@@ -46,14 +47,26 @@ export default {
 			row: true // 竖屏
 		}
 	},
+
+	watch: {
+		systemInfo: {
+			handler(newVal) {
+				this.systemInfo = newVal
+			},
+			deep: true
+		},
+		url(newVal) {
+			this.url = newVal
+		}
+	},
 	async onLoad(option) {
 		console.log(['uni', uni])
 		uni.showLoading({
 			title: this.$config.loadingText
 		})
-
+		this.systemInfo = this.$store.state.systemInfo
+		console.log(['systemInfo', this.systemInfo])
 		try {
-			console.log(['option', option])
 			this.option = JSON.parse(option.data)
 			this.title = this.option.title
 			await this.getPlayerUrl(this.option)
@@ -78,13 +91,11 @@ export default {
 			})
 			if (!res) return false
 			console.log(['res', res])
-			// #ifndef H5
-			this.url = res.url
-			// #endif
-
-			//  #ifdef H5
-			this.video.url = res.url
-			// #endif
+			if (!this.systemInfo.platform || this.systemInfo.platform === 'other') {
+				this.video.url = res.url
+			} else {
+				this.url = res.url
+			}
 		},
 		fullscreenchange(event) {
 			// 横屏
@@ -134,6 +145,44 @@ export default {
 			this.title = item.title
 			await this.getPlayerUrl(item)
 			uni.hideLoading()
+		},
+		renderNativeVideo() {
+			let vm = this
+			let h = vm.$createElement
+			if (
+				(vm.systemInfo.platform === 'android' ||
+					vm.systemInfo.platform === 'ios') &&
+				vm.url
+			) {
+				return h(
+					'video',
+					{
+						props: {
+							name: 'media',
+							muted: 'muted',
+							autoplay: 'autoplay',
+							controls: 'controls',
+							loop: 'loop',
+							src: url,
+							direction: '90'
+						},
+						attrs: {
+							class: 'free-watch-player-row'
+						},
+						on: {
+							fullscreenchange: this.fullscreenchange
+						}
+					},
+					[
+						h('source', {
+							props: {
+								src: url,
+								type: 'video/m3u8'
+							}
+						})
+					]
+				)
+			}
 		}
 	}
 }
