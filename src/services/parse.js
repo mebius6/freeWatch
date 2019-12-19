@@ -235,7 +235,6 @@ let parse = {
     // 影片介绍
     let dataDom = $('.stui-content__detail').children('.data');
     let header = [];
-    console.log(['dataDom', dataDom]);
     dataDom.each((i, v) => {
       if (i === 0) {
         let labelArr = $(v)
@@ -298,7 +297,6 @@ let parse = {
           .text()
           .trim();
         let listDom = listDoms.find('li');
-        console.log(['listDom', listDom]);
         if (listDom.length) {
           let list = [];
           listDom.each((index, item) => {
@@ -342,7 +340,6 @@ let parse = {
      * var nextPage="/play/72304-0-0.html";"
      */
     let playerUrlArr = iframe.prev()[0].children[0].data.split(';');
-    console.log(['playerUrlArr', playerUrlArr]);
     let playerUrlItem = (playerUrlArr || []).find(v => v.indexOf('now') > -1);
     let playerUrl = '';
     try {

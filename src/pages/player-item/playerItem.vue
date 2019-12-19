@@ -1,53 +1,19 @@
 <template>
   <view class="free-watch-player">
     <!-- #ifndef H5 -->
-    <video
-      name="media"
-      muted="muted"
-      autoplay="autoplay"
-      controls="controls"
-      loop="loop"
-      class="free-watch-player-row"
-      :src="url"
-      direction="90"
-      @fullscreenchange="fullscreenchange"
-    >
+    <video name="media" muted="muted" autoplay="autoplay" controls="controls" loop="loop" class="free-watch-player-row" :src="url" direction="90" @fullscreenchange="fullscreenchange">
       <source :src="url" type="video/m3u8" />
     </video>
     <!-- #endif-->
 
     <!-- #ifdef H5 -->
-    <dplayer
-      v-if="video.url && video.url.endsWith('.m3u8')"
-      class="free-watch-player-row"
-      ref="player"
-      @on-ended="ended"
-      @on-playing="playing"
-      :video="video"
-      :contextmenu="contextmenu"
-    ></dplayer>
-    <video
-      v-if="video.url && !video.url.endsWith('.m3u8')"
-      name="media"
-      muted="muted"
-      autoplay="autoplay"
-      controls="controls"
-      loop="loop"
-      class="free-watch-player-row"
-      :src="video.url"
-      direction="90"
-      @fullscreenchange="fullscreenchange"
-    >
-      <source :src="url" type="video/m3u8" />
-    </video>
+    <dplayer v-if="video.url && video.url.endsWith('.m3u8')" class="free-watch-player-row" ref="player" @on-ended="ended" @on-playing="playing" :video="video" :contextmenu="contextmenu"></dplayer>
+    <object ref="player-item-object" v-if="video.url && !video.url.endsWith('.m3u8')" class="free-watch-player-object" :data="video.url" @onended="ended" @oncanplay="playing" :video="video" :contextmenu="contextmenu">
+      <param name="filename" :value="option.author">
+    </object>
     <!-- #endif -->
-    <view class="tarbar-detail-body-section-item">
-      <view
-        :class="title === v.title ? 'player-title active' : 'player-title'"
-        v-for="(v, i) in body"
-        :key="i"
-        @click="playerItem(v)"
-      >
+    <view class="tarbar-detail-body-section-item" v-if="video.url && video.url.endsWith('.m3u8')">
+      <view :class="title === v.title ? 'player-title active' : 'player-title'" v-for="(v, i) in body" :key="i" @click="playerItem(v)">
         <text class="player-title-text">{{ v.title }}</text>
       </view>
     </view>
@@ -177,12 +143,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../styles/main.less';
+@import "../../styles/main.less";
 .free-watch-player {
   &-row {
     width: 100vw;
     height: 50vh;
     transform: rotate(0);
+  }
+  &-object {
+    width: 100vw;
+    height: 100vh;
   }
   &-column {
     width: 100vh;
