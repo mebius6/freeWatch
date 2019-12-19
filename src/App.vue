@@ -7,6 +7,7 @@ export default {
 	},
 
 	async onShow() {
+		this.$store.dispatch('getSystemInfo') //获得系统信息
 		await this.$store.dispatch('get245BtHeader')
 		// let res = await this.api.get245BtHeader().catch(err => {
 		// 	console.log(['bterr', err])
@@ -28,7 +29,7 @@ export default {
 					})
 					this.$store.replaceState(store)
 					uni.removeStorageSync(storeKey.vuexStore)
-				}else{
+				} else {
 					this.$store.dispatch('get245BtHeader')
 				}
 			} catch (error) {

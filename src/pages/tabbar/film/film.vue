@@ -67,6 +67,7 @@ export default {
 		// uni.startPullDownRefresh()
 	},
 	async onShow() {
+		console.warn(this.$store.state.systemInfo)
 		await this.getDefault()
 	},
 	// 下拉刷新
@@ -97,6 +98,7 @@ export default {
 	// 切换底部tab
 	async onTabItemTap() {
 		let vm = this
+
 		await vm.getDefault()
 		let items = vm.tabsList.find(v => v.title === '全部')
 		if (items.path) {
