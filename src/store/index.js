@@ -13,6 +13,15 @@ const func = {
     uni.setStorageSync(storeKey.vuexStore, JSON.stringify(data || "[]"));
   }
 };
+const vuexLocal = new VuexPersistence({
+  storage: window.localStorage,
+  reducer: state => ({
+    header: state.header, //www.1156zy.com
+    btHeader: state.btHeader, //www.245bt.com
+    currentRefresh: state.currentRefresh, // 是否刷新
+    systemInfo: state.systemInfo // 系统信息 //这个就是存入localStorage的值
+  })
+});
 export default new Vuex.Store({
   state: {
     header: uni.getStorageSync(storeKey.vuexStore), //www.1156zy.com
@@ -88,17 +97,5 @@ export default new Vuex.Store({
     }
   },
   strict: debug,
-  plugins: debug
-    ? [
-        createLogger(),
-        new VuexPersistence({
-          reducer: state => ({
-            header: state.header, //www.1156zy.com
-            btHeader: state.btHeader, //www.245bt.com
-            currentRefresh: state.currentRefresh, // 是否刷新
-            systemInfo: state.systemInfo // 系统信息 //这个就是存入localStorage的值
-          })
-        }).plugin
-      ]
-    : []
+  plugins: debug ? [createLogger(), vuexLocal.plugin] : [vuexLocal.plugin]
 });
